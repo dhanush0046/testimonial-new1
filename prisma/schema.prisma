@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CollectionType {
+  TEXT_ONLY
+  VIDEO_ONLY
+  TEXT_AND_VIDEO
+}
+
+enum Theme {
+  LIGHT
+  DARK
+}
+
+enum TestimonialType {
+  TEXT
+  VIDEO
+}
+
+enum Language {
+  ENGLISH
+  SPANISH
+  FRENCH
+  GERMAN
+  CHINESE
+}
+
+model Space {
+  id                    String     @id @default(uuid())
+  spaceName             String
+  headerTitle           String
+  customMessage         String
+  logo                  String?
+  logoShape             Boolean    @default(false)
+  shareableLink         String?
+  collectionType        CollectionType
+  collectStarRatings    Boolean    @default(false)
+  theme                 Theme      @default(LIGHT)
+  autoTranslate         Boolean    @default(false)
+  language              Language   @default(ENGLISH)
+  questions              Json      @default("[]")
+  extraInformationFields Json      @default("[]")
+  testimonials          Testimonial[]
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  // Thank you page fields
+  thankYouImage         String?
+  thankYouTitle         String     @default("Thank you!")
+  thankYouMessage       String     @default("Thank you so much for your shoutout! It means a ton for us! 🙏")
+  allowSocialShare      Boolean    @default(false)
+  redirectUrl           String?
+  autoReward            Boolean    @default(false)
+
+    // Extra settings
+  maxVideoDuration        Int       @default(120)
+  maxTextCharacters       Int       @default(0)
+  videoButtonText         String    @default("Record a video")
+  textButtonText          String    @default("Send in text")
+  consentDisplay          String    @default("required")
+  consentStatement        String    @default("I give permission to use this testimonial.")
+  textSubmissionTitle     String    @default("Title")
+  questionLabel           String    @default("Questions")
+  affiliateLink           String?
+  thirdPartyReviewPlatform String?
+  thirdPartyReviewLink    String?
+  autoPopulateWallOfLove  Boolean   @default(false)
+  disableVideoForIphone   Boolean   @default(false)
+  allowSearchEngineIndexing Boolean @default(false)
+  customButtonColorRV     String     @default("#4F46E5")
+  customButtonColorST     String     @default("#6B7280")
+  openGraphTitle          String?
+  openGraphDescription    String?
+  openGraphImage          String?
+}
+
+model Testimonial {
+  id                String   @id @default(cuid())
+  spaceId           String
+  content           String
+  type              TestimonialType
+  rating            Int?
+  photo             String?
+  videoUrl          String?
+  attachedImages    String[] // New field for attached images
+  permissionGranted Boolean  @default(false)
+  extraInformation  Json     @default("[]")
+  language          Language @default(ENGLISH)
+  translations      Json?    // New field for storing translations
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  space             Space    @relation(fields: [spaceId], references: [id])
+}
