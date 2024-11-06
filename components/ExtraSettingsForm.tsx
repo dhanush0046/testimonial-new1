@@ -692,7 +692,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
             type="url"
             id="affiliateLink"
             name="affiliateLink"
-            value={extraSettings.affiliateLink}
+            value={extraSettings.affiliateLink || ''}
             onChange={handleChange}
             placeholder="https://testimonial.to/?via=xyz"
           />
@@ -706,7 +706,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
             <div className="col-span-6 sm:col-span-2">
               <Select
                 name="thirdPartyReviewPlatform"
-                value={extraSettings.thirdPartyReviewPlatform}
+                value={extraSettings.thirdPartyReviewPlatform || ''}
                 onValueChange={(value) => onExtraSettingsChange({ thirdPartyReviewPlatform: value })}
               >
                 <SelectTrigger id="thirdPartyName">
@@ -731,7 +731,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
                 type="text"
                 name="thirdPartyReviewLink"
                 id="thirdPartyLink"
-                value={extraSettings.thirdPartyReviewLink}
+                value={extraSettings.thirdPartyReviewLink || ''}
                 onChange={handleChange}
                 className="flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                 placeholder="Enter review link"
@@ -786,7 +786,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
                 <Input
                   id="openGraphTitle"
                   name="openGraphTitle"
-                  value={extraSettings.openGraphTitle}
+                  value={extraSettings.openGraphTitle || ''}
                   onChange={handleChange}
                   placeholder="Title"
                 />
@@ -796,7 +796,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
                 <Input
                   id="openGraphDescription"
                   name="openGraphDescription"
-                  value={extraSettings.openGraphDescription}
+                  value={extraSettings.openGraphDescription || ''}
                   onChange={handleChange}
                   placeholder="Description"
                 />

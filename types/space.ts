@@ -135,7 +135,7 @@ export interface Space extends ExtraSettings {
   autoTranslate: boolean;
   questions: Question[];
   extraInformationFields: ExtraInformationField[];
-  shareableLink: string;
+  shareableLink: string | null;
   videoTestimonialsCount: number;
   textTestimonialsCount: number;
   createdAt: Date;
@@ -156,20 +156,20 @@ export interface ExtraSettings {
   maxTextCharacters: number;
   videoButtonText: string;
   textButtonText: string;
-  consentDisplay: 'required' | 'optional' | 'hidden';
+  consentDisplay: string;
   consentStatement: string;
   textSubmissionTitle: string;
   questionLabel: string;
-  affiliateLink: string;
-  thirdPartyReviewPlatform: string;
-  thirdPartyReviewLink: string;
+  affiliateLink: string | null;
+  thirdPartyReviewPlatform: string | null;
+  thirdPartyReviewLink: string | null;
   autoPopulateWallOfLove: boolean;
   disableVideoForIphone: boolean;
   allowSearchEngineIndexing: boolean;
   customButtonColorRV: string;  
   customButtonColorST: string;
-  openGraphTitle: string;
-  openGraphDescription: string;
+  openGraphTitle: string | null;
+  openGraphDescription: string | null;
   openGraphImage: File| string | null;
 }
 

@@ -8,7 +8,7 @@ import { toast, Toaster } from 'sonner';
 interface CreateSpaceResultProps {
   spaceName: string;
   spaceId: string;
-  shareableLink: string;
+  shareableLink: string | null;
   onOpenLink?: (link: string) => void;
 }
 
@@ -36,9 +36,9 @@ export default function CreateSpaceResult({ spaceName, spaceId, shareableLink, o
 
   const handleOpenLink = () => {
     if (onOpenLink) {
-      onOpenLink(shareableLink);
+      onOpenLink(shareableLink || '');
     } else {
-      window.open(shareableLink, '_blank');
+      window.open(shareableLink || '', '_blank');
     }
   };
 
