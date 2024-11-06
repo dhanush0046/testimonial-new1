@@ -315,10 +315,10 @@ export default function TestimonialDashboard({ spaceName, spaceId, spaceLogo }: 
   const filteredTestimonials = testimonials.filter(testimonial => 
     (activeTab === 'all' || 
      (activeTab === 'video' && testimonial.type === TestimonialType.VIDEO) ||
-     (activeTab === 'text' && testimonial.type === TestimonialType.TEXT) ||
-     (activeTab === 'liked' && testimonial.isLiked) ||
-     (activeTab === 'archived' && testimonial.isArchived) ||
-     (activeTab === 'spam' && testimonial.isSpam)) &&
+     (activeTab === 'text' && testimonial.type === TestimonialType.TEXT)) &&
+    //  (activeTab === 'liked' && testimonial.isLiked) ||
+    //  (activeTab === 'archived' && testimonial.isArchived) ||
+    //  (activeTab === 'spam' && testimonial.isSpam)) &&
     (testimonial.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
      (Array.isArray(testimonial.extraInformation) && testimonial.extraInformation.some(item => 
        (item as ExtraInformationItem).value.toString().toLowerCase().includes(searchTerm.toLowerCase())
