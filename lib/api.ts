@@ -180,6 +180,7 @@ export async function updateSpace(spaceId: string, input: Partial<CreateSpaceInp
       throw error;
     }
   }
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
   const response = await fetch(`/api/spaces/${spaceId}`, {
     method: 'PUT',
@@ -190,7 +191,9 @@ export async function updateSpace(spaceId: string, input: Partial<CreateSpaceInp
       ...input, 
       logo: logoUrl, 
       thankYouImage: thankYouImageUrl, 
-      openGraphImage: openGraphImageUrl }),
+      openGraphImage: openGraphImageUrl,
+      origin,
+      }),
   });
 
   if (!response.ok) {

@@ -200,6 +200,7 @@ export default async function handler(
         allowSocialShare,
         redirectUrl,
         autoReward,
+        origin,
         maxVideoDuration,
         maxTextCharacters,
         videoButtonText,
@@ -296,7 +297,7 @@ export default async function handler(
       updatedSpace.thankYouImage = formatImageUrl(updatedSpace.thankYouImage);
       updatedSpace.openGraphImage = formatImageUrl(updatedSpace.openGraphImage);
 
-      const shareableLink = `/submit-testimonial/${updatedSpace.spaceName}/${updatedSpace.id}`;
+      const shareableLink = `${origin}/submit-testimonial/${updatedSpace.spaceName}/${updatedSpace.id}`;
       const newUpdatedSpace = await prisma.space.update({
         where: { id: updatedSpace.id },
         data: { shareableLink },
