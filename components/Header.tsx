@@ -25,7 +25,7 @@ const Header = () => {
               <Link href="/">Dashboard</Link>
             </li>
             <li className="hover:text-gray-200 transition-colors">
-              <Link href="/create-space">Create Space</Link>
+              <Link href="/space">Create Space</Link>
             </li>
           </ul>
         </nav>
