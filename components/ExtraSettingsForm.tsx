@@ -533,9 +533,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
         <h3 className="text-2xl font-bold text-center">Some extra settings</h3>
 
         <div className="w-full">
-          <Label htmlFor="maxVideoDuration" className="block text-gray-700 text-sm font-medium mb-1">
-            Max video duration
-          </Label>
+          <Label htmlFor="maxVideoDuration"> Max video duration </Label>
           <div className="grid grid-cols-6 gap-4">
             <div className="col-span-6 sm:col-span-2">
               <Select
@@ -559,15 +557,19 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
 
         <div>
           <Label htmlFor="maxTextCharacters">Max characters for the text testimonial</Label>
-          <Input
-            type="number"
-            id="maxTextCharacters"
-            name="maxTextCharacters"
-            value={extraSettings.maxTextCharacters}
-            onChange={handleChange}
-            placeholder="0 for no limit"
-          />
-          <p className="text-sm text-gray-500">Setting it to 0 will remove the max char limit</p>
+            <div className="grid grid-cols-6 gap-4">
+              <div className="col-span-6 sm:col-span-2">
+                <Input
+                  type="number"
+                  id="maxTextCharacters"
+                  name="maxTextCharacters"
+                  value={extraSettings.maxTextCharacters || ''}
+                  onChange={handleChange}
+                  placeholder="0"
+                />
+              </div>
+            </div> 
+            <p className="text-sm text-gray-500">Setting it to 0 will remove the max char limit</p>
         </div>
 
         <div>
@@ -624,7 +626,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
             <div
               ref={consentStatementRef}
               id="consentStatement"
-              className="form-input react-editor-parent react-editor-no-min-height w-full bg-white text-gray-800 border border-gray-200 rounded-md p-2 empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400"
+              className="form-input react-editor-parent react-editor-no-min-height w-full bg-white text-gray-800 border border-gray-200 rounded-md p-2 empty:before:content-[attr(data-placeholder)] empty:before:text-gray-500"
               contentEditable="true"
               spellCheck="true"
               role="textbox"
@@ -649,6 +651,18 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
         </div>
 
         <div>
+          <Label htmlFor="videoSubmissionTitle">Video submission title</Label>
+          <Input
+            type="text"
+            id="videoSubmissionTitle"
+            name="videoSubmissionTitle"
+            placeholder='Title'
+            value={extraSettings.videoSubmissionTitle}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
           <Label htmlFor="questionLabel">Question label</Label>
           <Input
             type="text"
@@ -660,7 +674,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
           />
         </div>
 
-        <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-between space-x-2">
             <div>
               <Label htmlFor="customButtonColorRV">Custom button color for "Record a Video"</Label>
               <Input
@@ -813,7 +827,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
                       />
                     )}
                   </span>
-                  <span className="ml-5 rounded-md shadow-sm">
+                  <span className="ml-5">
                     <Input
                       id="openGraphImage"
                       name="openGraphImage"
@@ -824,7 +838,7 @@ export default function ExtraSettingsForm({ extraSettings, onExtraSettingsChange
                     />
                     <Label
                       htmlFor="openGraphImage"
-                      className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-600 hover:text-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out cursor-pointer"
+                      className="py-2 px-3 border rounded-md text-sm cursor-pointer"
                     >
                       Change
                     </Label>

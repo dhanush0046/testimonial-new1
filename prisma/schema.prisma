@@ -53,6 +53,7 @@ model Space {
   questions              Json      @default("[]")
   extraInformationFields Json      @default("[]")
   testimonials          Testimonial[]
+  apiKey                ApiKey[]
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
 
@@ -72,6 +73,7 @@ model Space {
   consentDisplay          String    @default("required")
   consentStatement        String    @default("I give permission to use this testimonial.")
   textSubmissionTitle     String    @default("Title")
+  videoSubmissionTitle    String    @default("Title")
   questionLabel           String    @default("Questions")
   affiliateLink           String?
   thirdPartyReviewPlatform String?
@@ -84,6 +86,74 @@ model Space {
   openGraphTitle          String?
   openGraphDescription    String?
   openGraphImage          String?
+
+  tagsDisplayOnWall Boolean  @default(true)
+  tags              Tag[]
+
+  wallOfLoveSettings    WallOfLoveSettings?
+}
+
+model ApiKey {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  space     Space    @relation(fields: [spaceId], references: [id])
+  spaceId   String
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id            String   @id @default(uuid())
+  name          String
+  displayOnWall Boolean @default(false)
+  isActive      Boolean @default(true)
+  position      Int
+  spaceId       String
+  space         Space    @relation(fields: [spaceId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([spaceId, name])
+  @@index([spaceId])
+}
+
+// New model for Wall of Love settings
+model WallOfLoveSettings {
+  id                    String     @id @default(uuid())
+  spaceId               String     @unique
+  space                 Space      @relation(fields: [spaceId], references: [id])
+
+  coverImage            String?
+  coverImageDarkness    Int        @default(100)
+  topBannerText         String     @default("Wall of Love")
+  topBannerTextColor    String     @default("#FFFFFF")
+  topBannerButtonText   String     @default("Submit your testimonial")
+  topBannerButtonColor  String     @default("#4F46E5")
+  showBorder            Boolean    @default(false)
+  borderRadius          String     @default("small")
+  borderColor           String     @default("#E5E7EB")
+  borderThickness       Int        @default(1)
+
+  // Additional customization fields
+  // showShadow            Boolean    @default(false)
+  // shadowColor           String     @default("rgba(0, 0, 0, 0.1)")
+  // backgroundColor       String     @default("#FFFFFF")
+  // textColor             String     @default("#000000")
+  // fontFamily            String     @default("Inter, sans-serif")
+  // testimonialLayout     String     @default("grid")
+  // testimonialSpacing    Int        @default(16)
+
+  // // Video settings
+  // showVideoThumbnail    Boolean    @default(true)
+  // videoPlayerTheme      String     @default("light")
+
+  // // Tag settings
+  // showTags              Boolean    @default(true)
+  // tagStyle              String     @default("pill")
+  // tagColor              String     @default("#E5E7EB")
+  // tagTextColor          String     @default("#4B5563")
+
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
 }
 
 model Testimonial {
@@ -94,11 +164,20 @@ model Testimonial {
   rating            Int?
   photo             String?
   videoUrl          String?
+  videoThumbnail    String?
   attachedImages    String[] // New field for attached images
   permissionGranted Boolean  @default(false)
   extraInformation  Json     @default("[]")
-  language          Language @default(ENGLISH)
-  translations      Json?    // New field for storing translations
+  companyLink       String?
+  companyLogo       String?
+  readMoreLink      String?
+  excerpt           String?
+  internalComments  String?
+  isLiked           Boolean @default(false)
+  isHighlighted     Boolean  @default(false)
+  isArchived        Boolean @default(false)
+  isSpam            Boolean @default(false)
+  tags              String[] 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   space             Space    @relation(fields: [spaceId], references: [id])

@@ -234,336 +234,452 @@
 // }
 
 
-// //components/TestimonialDashboard.tsx
-"use client";
+// //components/TestimonialDashboard.tsx -work
+// "use client";
+// import React, { useState, useEffect, useCallback, useRef } from 'react';
+// import Header from "@/components/Header";
+// import { Settings, Video, MessageSquare, Search, ChevronDown, Heart, Archive, AlertTriangle, ImportIcon, TagIcon, EditIcon, Download } from 'lucide-react';
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+// import { Testimonial, TestimonialType, ExtraInformationItem } from '@/types/testimonial';
+// import { TestimonialCard } from "@/components/TestimonialCard";
+// import { Sidebar } from "@/components/SpaceSidebar";
+// import { useRouter } from 'next/navigation';
+// import { getTestimonials, likeTestimonial, archiveTestimonial, highlightTestimonial, deleteTestimonial } from "@/lib/dashboardApi";
+// import { DeleteConfirm } from "@/components/DeleteConfirm";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import Header from "@/components/Header";
-import { Settings, Video, MessageSquare, Search, ChevronDown, Heart, Archive, AlertTriangle, ImportIcon, TagIcon, EditIcon, Download } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Testimonial, TestimonialType, ExtraInformationItem } from '@/types/testimonial';
-import { TestimonialCard } from "@/components/TestimonialCard";
-import { Sidebar } from "@/components/SpaceSidebar";
-import { useRouter } from 'next/navigation';
+// interface TestimonialDashboardProps {
+//   spaceName: string;
+//   spaceId: string;
+//   spaceLogo: string | null;
+// }
 
-interface TestimonialDashboardProps {
-  spaceName: string;
-  spaceId: string;
-  spaceLogo: string | null;
-}
+// interface SpaceHeaderProps {
+//   spaceName: string;
+//   spaceLogo: string | null;
+//   videoCount: number;
+//   textCount: number;
+// }
 
-interface SpaceHeaderProps {
-  spaceName: string;
-  spaceLogo: string | null;
-  videoCount: number;
-  textCount: number;
-}
+// interface SpaceStatsProps {
+//   videoCount: number;
+//   textCount: number;
+// }
 
-interface SpaceStatsProps {
-  videoCount: number;
-  textCount: number;
-}
+// interface TestimonialControlsProps {
+//   searchTerm: string;
+//   setSearchTerm: (term: string) => void;
+// }
 
-interface TestimonialControlsProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}
+// interface SearchInputProps {
+//   searchTerm: string;
+//   setSearchTerm: (term: string) => void;
+// }
 
-interface SearchInputProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}
+// export default function TestimonialDashboard({ spaceName, spaceId, spaceLogo }: TestimonialDashboardProps) {
+//   const [activeTab, setActiveTab] = useState('all');
+//   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const router = useRouter();
 
-interface TestimonialListProps {
-  isLoading: boolean;
-  error: string | null;
-  filteredTestimonials: Testimonial[];
-}
+//   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+//   const [testimonialToDelete, setTestimonialToDelete] = useState<string | null>(null)
 
-export default function TestimonialDashboard({ spaceName, spaceId, spaceLogo }: TestimonialDashboardProps) {
-  const [activeTab, setActiveTab] = useState('all');
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+//   const headerRef = useRef<HTMLDivElement>(null)
+//   const [headerHeight, setHeaderHeight] = useState(0)
 
-  const fetchTestimonials = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`/api/get-testimonials?spaceId=${spaceId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch testimonials');
-      }
-      const data = await response.json();
-      setTestimonials(data);
-    } catch (err) {
-      setError('Error fetching testimonials. Please try again later.');
-      console.error('Error fetching testimonials:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [spaceId]);
+//   useEffect(() => {
+//     const updateHeaderHeight = () => {
+//       if (headerRef.current) {
+//         setHeaderHeight(headerRef.current.getBoundingClientRect().height)
+//       }
+//     }
 
-  useEffect(() => {
-    fetchTestimonials();
-  }, [fetchTestimonials]);
+//     updateHeaderHeight()
+//     window.addEventListener('resize', updateHeaderHeight)
+//     return () => window.removeEventListener('resize', updateHeaderHeight)
+//   }, [])
 
-  const filteredTestimonials = testimonials.filter(testimonial => 
-    (activeTab === 'all' || 
-     (activeTab === 'video' && testimonial.type === TestimonialType.VIDEO) ||
-     (activeTab === 'text' && testimonial.type === TestimonialType.TEXT)) &&
-    //  (activeTab === 'liked' && testimonial.isLiked) ||
-    //  (activeTab === 'archived' && testimonial.isArchived) ||
-    //  (activeTab === 'spam' && testimonial.isSpam)) &&
-    (testimonial.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     (Array.isArray(testimonial.extraInformation) && testimonial.extraInformation.some(item => 
-       (item as ExtraInformationItem).value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-     )))
-  );
+//   const fetchTestimonials = useCallback(async () => {
+//     setIsLoading(true);
+//     setError(null);
+//     try {
+//       const data = await getTestimonials(spaceId);
+//       setTestimonials(data);
+//     } catch (err) {
+//       setError('Error fetching testimonials. Please try again later.');
+//       console.error('Error fetching testimonials:', err);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   }, [spaceId]);
 
-  const videoCount = testimonials.filter(t => t.type === TestimonialType.VIDEO).length;
-  const textCount = testimonials.filter(t => t.type === TestimonialType.TEXT).length;
+//   useEffect(() => {
+//     fetchTestimonials();
+//   }, [fetchTestimonials]);
 
-  const handleEditSpace = () => {
-    router.push(`/space/${spaceId}`);
-  };
+//   const filteredTestimonials = testimonials.filter(testimonial => 
+//     (activeTab === 'all' && !testimonial.isArchived) || 
+//     (activeTab === 'video' && testimonial.type === TestimonialType.VIDEO && !testimonial.isArchived) ||
+//     (activeTab === 'text' && testimonial.type === TestimonialType.TEXT && !testimonial.isArchived) ||
+//     (activeTab === 'liked' && testimonial.isLiked && !testimonial.isArchived) ||
+//     (activeTab === 'archived' && testimonial.isArchived)
+//   ).filter(testimonial =>
+//     testimonial.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     (Array.isArray(testimonial.extraInformation) && testimonial.extraInformation.some(item => 
+//       (item as ExtraInformationItem).value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+//     ))
+//   );
 
-  return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
-      <header className="absolute w-full z-30 bg-white border-b border-gray-200">
-        <Header />
-      </header>
-      <header className='bg-gray-100 dark:bg-gray-900 py-8 mt-20 border-b border-gray-50 dark:border-gray-800'>
-        <div className="mx-4 md:mx-auto container lg:flex lg:items-center lg:justify-between">
-          <SpaceHeader
-            spaceName={spaceName}
-            spaceLogo={spaceLogo}
-            videoCount={videoCount}
-            textCount={textCount}
-            onEditSpace={handleEditSpace}
+//   const videoCount = testimonials.filter(t => t.type === TestimonialType.VIDEO).length;
+//   const textCount = testimonials.filter(t => t.type === TestimonialType.TEXT).length;
 
-          />
-        </div>
-      </header>
+//   const handleEditSpace = () => {
+//     router.push(`/space/${spaceId}`);
+//   };
 
-      <div className="grid md:grid-cols-12 sm:grid-cols-1">
-        <div className="mx-4 col-span-12 md:col-span-4 2xl:col-span-3">
-          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        </div>
-       
-        <div className="pb-20 my-10 mx-4 col-span-12 md:col-span-8 2xl:col-span-9 overflow-auto">
-          <TestimonialControls
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
+//   const handleLike = async (id: string) => {
+//     try {
+//       const updatedTestimonial = await likeTestimonial(id);
+//       setTestimonials(prevTestimonials => 
+//         prevTestimonials.map(t => 
+//           t.id === id ? { ...t, isLiked: updatedTestimonial.isLiked, isHighlighted: updatedTestimonial.isHighlighted } : t
+//         )
+//       );
+//     } catch (error) {
+//       console.error('Error updating testimonial:', error);
+//     }
+//   };
+  
+//   const handleArchive = async (id: string) => {
+//     try {
+//       const updatedTestimonial = await archiveTestimonial(id);
+//       setTestimonials(prevTestimonials => 
+//         prevTestimonials.map(t => 
+//           t.id === id ? { ...updatedTestimonial, isArchived: updatedTestimonial.isArchived } : t
+//         )
+//       );
+//     } catch (error) {
+//       console.error('Error archiving testimonial:', error);
+//     }
+//   };
+  
+//   const handleHighlight = async (id: string) => {
+//     try {
+//       const updatedTestimonial = await highlightTestimonial(id);
+//       setTestimonials(prevTestimonials => 
+//         prevTestimonials.map(t => 
+//           t.id === id ? { ...t, isHighlighted: updatedTestimonial.isHighlighted } : t
+//         )
+//       );
+//     } catch (error) {
+//       console.error('Error highlighting testimonial:', error);
+//     }
+//   };
 
-          <TestimonialList
-            isLoading={isLoading}
-            error={error}
-            filteredTestimonials={filteredTestimonials}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+//   const handleDelete = async (id: string) => {
+//     setTestimonialToDelete(id)
+//     setDeleteModalOpen(true)
+//   }
 
-function SpaceHeader({ spaceName, spaceLogo, videoCount, textCount, onEditSpace }: SpaceHeaderProps & { onEditSpace: () => void }) {
-  return (
-    <>
-      <div className="min-w-0 flex-1">
-        <div className="flex justify-center sm:justify-start items-center">
-          {spaceLogo && (
-            <img src={spaceLogo} alt="Space logo" className="rounded-lg w-auto h-16 mr-5 border border-gray-200 dark:border-gray-800" />
-          )}
-          <div className="flex flex-col justify-center">
-            <h1 className="text-2xl font-bold leading-7 sm:text-3xl sm:tracking-tight flex items-center">
-              <span>{spaceName}</span>
-            </h1>
-          </div>
-        </div>
-      </div>
-      <div className="hidden sm:flex justify-center sm:justify-start mt-4 lg:my-auto xl:ml-4">
-        <SpaceStats videoCount={videoCount} textCount={textCount} />
-        <span className="pl-10 block">
-          <Button variant="outline" className="inline-flex items-center" onClick={onEditSpace}>
-            <Settings className="mr-2 h-5 w-5" />
-            Edit space
-          </Button>
-        </span>
-      </div>
-    </>
-  );
-}
+//   const confirmDelete = async () => {
+//     if (!testimonialToDelete) return
 
-function SpaceStats({ videoCount, textCount }: SpaceStatsProps) {
-  return (
-    <>
-      <span className="block">
-        <div className="flex flex-col">
-          <dt className="flex">
-            <Video className="h-5 w-5 mr-2" />
-            <p className="ml-2 text-sm font-medium">Video credits</p>
-          </dt>
-          <dd className="pl-7">
-            <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">{videoCount}</p>
-          </dd>
-        </div>
-      </span>
-      <span className="pl-10 block">
-        <div className="flex flex-col">
-          <dt className="flex">
-            <MessageSquare className="h-5 w-5 mr-2" />
-            <p className="ml-2 text-sm font-medium">Text credits</p>
-          </dt>
-          <dd className="pl-7">
-            <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">{textCount}</p>
-          </dd>
-        </div>
-      </span>
-    </>
-  );
-}
+//     try {
+//       await deleteTestimonial(testimonialToDelete);
+//       setTestimonials(prevTestimonials => 
+//         prevTestimonials.filter(t => t.id !== testimonialToDelete)
+//       )
+//             setDeleteModalOpen(false)
+//       setTestimonialToDelete(null)
+//     } catch (error) {
+//       console.error('Error deleting testimonial:', error)
+//     }
+//   }
 
-function TestimonialControls({ searchTerm, setSearchTerm }: TestimonialControlsProps) {
-  return (
-    <div className="flex-1 flex justify-between mb-5 py-4 2xl:w-3/4 2xl:mx-auto">
-      <SearchInput searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <ReviewToneButton />
-      <OptionsDropdown />
-    </div>
-  );
-}
+//   return (
+//     <div className="min-h-screen bg-white dark:bg-gray-900">
+//       <div ref={headerRef} className="fixed top-0 left-0 right-0 z-30 bg-white dark:bg-gray-900">
+//         <header className="w-full bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+//           <Header />
+//         </header>
+//         <header className="bg-gray-100 dark:bg-gray-900 py-5 border-b border-gray-50 dark:border-gray-800">
+//           <div className="mx-4 md:mx-auto container lg:flex lg:items-center lg:justify-between">
+//             <SpaceHeader
+//               spaceName={spaceName}
+//               spaceLogo={spaceLogo}
+//               videoCount={videoCount}
+//               textCount={textCount}
+//               onEditSpace={handleEditSpace}
+//             />
+//           </div>
+//         </header>
+//       </div>
 
-function SearchInput({ searchTerm, setSearchTerm }: SearchInputProps) {
-  return (
-    <div className="flex-1 flex">
-      <div className="w-full flex md:ml-0">
-        <label htmlFor="search-field" className="sr-only">Search</label>
-        <div className="relative w-full text-gray-600 dark:text-gray-200">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2">
-            <Search className="h-5 w-5" />
-          </div>
-          <Input
-            id="search-field"
-            className="block w-full pl-10 pr-3 py-2 border rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-            placeholder="Search by name, email, or testimonial keywords"
-            type="search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+//       <main 
+//         className="container mx-auto grid md:grid-cols-12 gap-6 relative"
+//         style={{ marginTop: `${headerHeight}px` }}
+//       >
+//         <div className="md:col-span-3 lg:col-span-2">
+//           <div
+//             className="w-full"
+//             style={{
+//               position: 'sticky',
+//               top: `${headerHeight}px`,
+//               height: `calc(100vh - ${headerHeight}px)`,
+//               overflowY: 'auto'
+//             }}
+//           >
+//             <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} spaceId=''  />
+//           </div>
+//         </div>
 
-function ReviewToneButton() {
-  return (
-    <div className="ml-2 border-gray-200 dark:border-gray-700">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="relative opacity-50">
-              <Button disabled className="inline-flex items-center justify-between w-[160px] border-2 border-gray-300 dark:border-gray-700">
-                <span>Review tone</span>
-                <ChevronDown className="h-4 w-4 opacity-50" />
-              </Button>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <div className="w-64">
-              <p>Upgrade to the <a className="underline font-semibold text-white" href="/pricing" target="_blank">Ultimate</a> plan to enable sentiment analysis for your testimonials, allowing you to filter by sentiment ratings:</p>
-              <ul className="mt-2 list-none">
-                <li>😠 Very negative</li>
-                <li>🙁 Negative</li>
-                <li>😐 Neutral</li>
-                <li>😀 Positive</li>
-                <li>🤩 Very positive</li>
-              </ul>
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </div>
-  );
-}
+//         <div className="md:col-span-9 lg:col-span-10 min-h-screen pb-20">
+//           <div className="sticky top-[calc(var(--header-height)+1rem)] z-10 bg-white dark:bg-gray-900 py-4">
+//             <TestimonialControls
+//               searchTerm={searchTerm}
+//               setSearchTerm={setSearchTerm}
+//             />
+//           </div>
 
-function OptionsDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
+//           <TestimonialList
+//             isLoading={isLoading}
+//             error={error}
+//             filteredTestimonials={filteredTestimonials}
+//             onLike={handleLike}
+//             onArchive={handleArchive}
+//             onHighlight={handleHighlight}
+//             onDelete={handleDelete}
+//             activeTab={activeTab}
+//           />
+//         </div>
+//       </main>
 
-  return (
-    <div className="relative inline-block text-left">
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-between w-[120px]"
-      >
-        <span>Options</span>
-        <ChevronDown className="h-4 w-4 opacity-50" />
-      </Button>
-      {isOpen && (
-        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <DropdownItem icon={<Video />}>Add a video</DropdownItem>
-            <DropdownItem icon={<MessageSquare />}>Add a text</DropdownItem>
-            <DropdownItem icon={<ImportIcon />} href="/pricing?ref=from-bulk-import">Bulk import</DropdownItem>
-            <DropdownItem icon={<Download />}>Export to CSV</DropdownItem>
-            <DropdownItem icon={<TagIcon />}>Manage tags</DropdownItem>
-            <DropdownItem icon={<EditIcon />}>Bulk editor</DropdownItem>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+//       <DeleteConfirm 
+//         isOpen={deleteModalOpen}
+//         onClose={() => {
+//           setDeleteModalOpen(false)
+//           setTestimonialToDelete(null)
+//         }}
+//         onConfirm={confirmDelete}
+//       />
+//     </div>
+//   )
+// }
 
-function DropdownItem({ icon, children, href }: { icon: React.ReactNode; children: React.ReactNode; href?: string }) {
-  const content = (
-    <>
-      {icon}
-      <span className="ml-3">{children}</span>
-    </>
-  );
+// function TestimonialList({ isLoading, error, filteredTestimonials, onLike, onArchive, onHighlight, onDelete, activeTab }: {
+//   isLoading: boolean;
+//   error: string | null;
+//   filteredTestimonials: Testimonial[];
+//   onLike: (id: string) => void;
+//   onArchive: (id: string) => void;
+//   onHighlight: (id: string) => void;
+//   onDelete: (id: string) => void;
+//   activeTab: string;
+// }) {
+//   if (isLoading) return <p>Loading testimonials...</p>;
+//   if (error) return <p className="text-red-500">{error}</p>;
 
-  if (href) {
-    return (
-      <a
-        href={href}
-        className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-        role="menuitem"
-      >
-        {content}
-      </a>
-    );
-  }
+//   return (
+//     <div className="space-y-6">
+//       {filteredTestimonials.length > 0 ? (
+//         filteredTestimonials.map((testimonial) => (
+//           <TestimonialCard 
+//             key={testimonial.id} 
+//             testimonial={testimonial} 
+//             onLike={onLike}
+//             onArchive={onArchive}
+//             onHighlight={onHighlight}
+//             onDelete={onDelete}
+//             activeTab={activeTab}
+//           />
+//         ))
+//       ) : (
+//         <p>No testimonials found.</p>
+//       )}
+//     </div>
+//   );
+// }
 
-  return (
-    <button
-      className="flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-      role="menuitem"
-    >
-      {content}
-    </button>
-  );
-}
+// function SpaceHeader({ spaceName, spaceLogo, videoCount, textCount, onEditSpace }: SpaceHeaderProps & { onEditSpace: () => void }) {
+//   return (
+//     <>
+//       <div className="min-w-0 flex-1">
+//         <div className="flex justify-center sm:justify-start items-center">
+//           {spaceLogo && (
+//             <img src={spaceLogo} alt="Space logo" className="rounded-lg w-auto h-16 mr-5 border border-gray-200 dark:border-gray-800" />
+//           )}
+//           <div className="flex flex-col justify-center">
+//             <h1 className="text-2xl font-bold leading-7 sm:text-3xl sm:tracking-tight flex items-center">
+//               <span>{spaceName}</span>
+//             </h1>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="hidden sm:flex justify-center sm:justify-start mt-4 lg:my-auto xl:ml-4">
+//         <SpaceStats videoCount={videoCount} textCount={textCount} />
+//         <span className="pl-10 block">
+//           <Button variant="outline" className="inline-flex items-center" onClick={onEditSpace}>
+//             <Settings className="mr-2 h-5 w-5" />
+//             Edit space
+//           </Button>
+//         </span>
+//       </div>
+//     </>
+//   );
+// }
 
-function TestimonialList({ isLoading, error, filteredTestimonials }: TestimonialListProps) {
-  if (isLoading) return <p>Loading testimonials...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+// function SpaceStats({ videoCount, textCount }: SpaceStatsProps) {
+//   return (
+//     <>
+//       <span className="block">
+//         <div className="flex flex-col">
+//           <dt className="flex">
+//             <Video className="h-5 w-5 mr-2" />
+//             <p className="ml-2 text-sm font-medium">Video credits</p>
+//           </dt>
+//           <dd className="pl-7">
+//             <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">{videoCount}</p>
+//           </dd>
+//         </div>
+//       </span>
+//       <span className="pl-10 block">
+//         <div className="flex flex-col">
+//           <dt className="flex">
+//             <MessageSquare className="h-5 w-5 mr-2" />
+//             <p className="ml-2 text-sm font-medium">Text credits</p>
+//           </dt>
+//           <dd className="pl-7">
+//             <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">{textCount}</p>
+//           </dd>
+//         </div>
+//       </span>
+//     </>
+//   );
+// }
 
-  return (
-    <div className="space-y-6">
-      {filteredTestimonials.length > 0 ? (
-        filteredTestimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-        ))
-      ) : (
-        <p>No testimonials found.</p>
-      )}
-    </div>
-  );
-}
+// function TestimonialControls({ searchTerm, setSearchTerm }: TestimonialControlsProps) {
+//   return (
+//     <div className="flex-1 flex justify-between mb-5 py-4 2xl:w-3/4 2xl:mx-auto">
+//       <SearchInput searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+//       <ReviewToneButton />
+//       <OptionsDropdown />
+//     </div>
+//   );
+// }
+
+// function SearchInput({ searchTerm, setSearchTerm }: SearchInputProps) {
+//   return (
+//     <div className="flex-1 flex">
+//       <div className="w-full flex md:ml-0">
+//         <label htmlFor="search-field" className="sr-only">Search</label>
+//         <div className="relative w-full text-gray-600 dark:text-gray-200">
+//           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2">
+//             <Search className="h-5 w-5" />
+//           </div>
+//           <Input
+//             id="search-field"
+//             className="block w-full pl-10 pr-3 py-2 border rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+//             placeholder="Search by name, email, or testimonial keywords"
+//             type="search"
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function ReviewToneButton() {
+//   return (
+//     <div className="ml-2 border-gray-200 dark:border-gray-700">
+//       <TooltipProvider>
+//         <Tooltip>
+//           <TooltipTrigger asChild>
+//             <div className="relative opacity-50">
+//               <Button disabled className="inline-flex items-center justify-between w-[160px] border-2 border-gray-300 dark:border-gray-700">
+//                 <span>Review tone</span>
+//                 <ChevronDown className="h-4 w-4 opacity-50" />
+//               </Button>
+//             </div>
+//           </TooltipTrigger>
+//           <TooltipContent>
+//             <div className="w-64">
+//               <p>Upgrade to the <a className="underline font-semibold text-white" href="/pricing" target="_blank">Ultimate</a> plan to enable sentiment analysis for your testimonials, allowing you to filter by sentiment ratings:</p>
+//               <ul className="mt-2 list-none">
+//                 <li>😠 Very negative</li>
+//                 <li>🙁 Negative</li>
+//                 <li>😐 Neutral</li>
+//                 <li>😀 Positive</li>
+//                 <li>🤩 Very positive</li>
+//               </ul>
+//             </div>
+//           </TooltipContent>
+//         </Tooltip>
+//       </TooltipProvider>
+//     </div>
+//   );
+// }
+
+// function OptionsDropdown() {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   return (
+//     <div className="relative inline-block text-left">
+//       <Button
+//         onClick={() => setIsOpen(!isOpen)}
+//         className="inline-flex items-center justify-between w-[120px]"
+//       >
+//         <span>Options</span>
+//         <ChevronDown className="h-4 w-4 opacity-50" />
+//       </Button>
+//       {isOpen && (
+//         <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+//           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+//             <DropdownItem icon={<Video />}>Add a video</DropdownItem>
+//             <DropdownItem icon={<MessageSquare />}>Add a text</DropdownItem>
+//             <DropdownItem icon={<ImportIcon />} href="/pricing?ref=from-bulk-import">Bulk import</DropdownItem>
+//             <DropdownItem icon={<Download />}>Export to CSV</DropdownItem>
+//             <DropdownItem icon={<TagIcon />}>Manage tags</DropdownItem>
+//             <DropdownItem icon={<EditIcon />}>Bulk editor</DropdownItem>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// function DropdownItem({ icon, children, href }: { icon: React.ReactNode; children: React.ReactNode; href?: string }) {
+//   const content = (
+//     <>
+//       {icon}
+//       <span className="ml-3">{children}</span>
+//     </>
+//   );
+
+//   if (href) {
+//     return (
+//       <a
+//         href={href}
+//         className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+//         role="menuitem"
+//       >
+//         {content}
+//       </a>
+//     );
+//   }
+
+//   return (
+//     <button
+//       className="flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+//       role="menuitem"
+//     >
+//       {content}
+//     </button>
+//   );
+// }
+

@@ -1,0 +1,72 @@
+{
+  "preview": {
+    "livePreview": "Live-Vorschau - Testimonial-Seite",
+    "thankYouPreview": "Live-Vorschau - Danke-Seite",
+    "yourSpace": "Ihr Bereich",
+    "headerHere": "Überschrift kommt hier...",
+    "giveTestimonial": "Bitte geben Sie hier Ihr Testimonial...",
+    "questions": "FRAGEN",
+    "recordVideo": "Video aufnehmen",
+    "sendText": "Als Text senden",
+    "thankYou": "Vielen Dank!",
+    "thankYouMessage": "Vielen Dank für Ihre Nachricht! Das bedeutet uns sehr viel! 🙏",
+    "videoButtonText": "Video aufnehmen",
+    "textButtonText": "Text senden",
+    "consentDisplay": "erforderlich",
+    "consentStatement": "Ich erlaube die Verwendung dieses Testimonials.",
+    "textSubmissionTitle": "Schreiben Sie ein Text-Testimonial für",
+    "videoSubmissionTitle": "Nehmen Sie ein Video-Testimonial für",
+    "questionLabel": "Fragen"
+  
+  },
+  "errors": {
+    "minCharacters": "Bitte geben Sie mindestens {{count}} Zeichen für Ihr Testimonial ein.",
+    "submissionFailed": "Beim Einreichen des Testimonials ist ein Fehler aufgetreten.",
+    "cameraAccessFailed": "Zugriff auf Kamera oder Mikrofon fehlgeschlagen",
+    "videoUploadFailed": "Video konnte nicht hochgeladen werden."
+  },
+  "success": {
+    "testimonialSubmitted": "Testimonial erfolgreich eingereicht!"
+  },
+  "labels": {
+    "optional": "Optional",
+    "questions": "Fragen",
+    "rating": "Bewertung",
+    "yourTestimonial": "Ihr Testimonial",
+    "characters": "Zeichen",
+    "charactersNeeded": " (noch {{count}} benötigt)",
+    "minimumReached": " (Minimum erreicht)",
+    "attachImages": "Bild(er) anhängen",
+    "uploadYourPhoto": "Laden Sie Ihr Foto hoch",
+    "uploading": "Hochladen..."
+  },
+  "extraFields": {
+    "name": "Name",
+    "email": "E-Mail",
+    "title,company": "Titel, Unternehmen",
+    "social link": "Sozialer Link",
+    "address": "Adresse"
+  },
+  "placeholders": {
+    "writeTestimonial": "Schreiben Sie Ihr Testimonial hier (mindestens {{count}} Zeichen)..."
+  },
+  "buttons": {
+    "chooseFile": "Datei auswählen",
+    "removeAll": "Alle entfernen",
+    "remove": "Entfernen",
+    "view": "Ansehen",
+    "cancel": "Abbrechen",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "startRecording": "Aufnahme starten",
+    "stopRecording": "Aufnahme stoppen",
+    "reRecord": "Erneut aufnehmen",
+    "uploadVideo": "Video hochladen"
+  },
+  "alt": {
+    "logo": "Logo",
+    "preview": "Vorschau",
+    "avatar": "Avatar",
+    "attached": "Angehängtes Bild"
+  }
+}

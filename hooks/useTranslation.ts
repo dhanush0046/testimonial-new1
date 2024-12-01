@@ -1,117 +1,91 @@
 // // hooks/useTranslation.ts
 // import { useState, useEffect } from 'react';
 // import { Language } from '@/types/space';
-
-// const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours
-
-// interface CacheItem {
-//   translatedText: string;
-//   timestamp: number;
-// }
+// import { translateText } from '@/lib/api';
 
 // export function useTranslation(text: string, language: Language) {
 //   const [translatedText, setTranslatedText] = useState(text);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState<string | null>(null);
 
 //   useEffect(() => {
-//     const fetchTranslation = async () => {
-//       const cacheKey = `translation_${text}_${language}`;
-//       const cachedItem = localStorage.getItem(cacheKey);
-
-//       if (cachedItem) {
-//         const { translatedText, timestamp }: CacheItem = JSON.parse(cachedItem);
-//         if (Date.now() - timestamp < CACHE_EXPIRATION) {
-//           setTranslatedText(translatedText);
-//           return;
-//         }
+//     const translate = async () => {
+//       if (language === Language.ENGLISH) {
+//         setTranslatedText(text);
+//         return;
 //       }
 
+//       setIsLoading(true);
+//       setError(null);
+
 //       try {
-//         const response = await fetch('/api/translate', {
-//           method: 'POST',
-//           headers: { 'Content-Type': 'application/json' },
-//           body: JSON.stringify({ text, targetLanguage: language }),
-//         });
-
-//         if (response.ok) {
-//           const { translatedText } = await response.json();
-//           setTranslatedText(translatedText);
-
-//           const cacheItem: CacheItem = { translatedText, timestamp: Date.now() };
-//           localStorage.setItem(cacheKey, JSON.stringify(cacheItem));
-//         } else {
-//           console.error('Translation failed');
-//         }
-//       } catch (error) {
-//         console.error('Error fetching translation:', error);
+//         const result = await translateText(text, Language.ENGLISH, language);
+//         setTranslatedText(result);
+//       } catch (err) {
+//         setError('Translation failed');
+//         console.error('Translation error:', err);
+//       } finally {
+//         setIsLoading(false);
 //       }
 //     };
 
-//     if (text && language !== Language.ENGLISH) {
-//       fetchTranslation();
-//     }
+//     translate();
 //   }, [text, language]);
 
-//   return { translatedText };
+//   return { translatedText, isLoading, error };
 // }
 
-//hooks/useTranslation.ts
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { Language } from '@/types/space';
 
-const CACHE_EXPIRATION =  24 * 60 * 60 * 1000; // 24 hours
 
-interface CacheItem {
-  translatedText: string;
-  timestamp: number;
-}
+// // hooks/useTranslation.ts
+// import { useTranslation as useI18nTranslation } from 'react-i18next';
+// import i18n from '@/app/i18n';
 
-export function useTranslation(text: string, language: Language) {
-  const [translatedText, setTranslatedText] = useState(text);
-  const textRef = useRef(text);
-  const languageRef = useRef(language);
+// export function useTranslation(namespace: string = 'common') {
+//   const { t } = useI18nTranslation(namespace);
 
-  const fetchTranslation = useCallback(async () => {
-    const cacheKey = `translation_${textRef.current}_${languageRef.current}`;
-    const cachedItem = localStorage.getItem(cacheKey);
+//   return {
+//     t,
+//     i18n,
+//     changeLanguage: (lang: string) => i18n.changeLanguage(lang),
+//   };
+// }
 
-    if (cachedItem) {
-      const { translatedText, timestamp }: CacheItem = JSON.parse(cachedItem);
-      if (Date.now() - timestamp < CACHE_EXPIRATION) {
-        setTranslatedText(translatedText);
-        return;
-      }
-    }
+// hooks/useTranslation.ts
+// import { useTranslation as useI18nTranslation } from 'react-i18next';
+// import i18n from '@/app/i18n';
 
-    try {
-      const response = await fetch('/api/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: textRef.current, targetLanguage: languageRef.current }),
-      });
+// export function useTranslation(namespace: string = 'common') {
+//   const { t } = useI18nTranslation(namespace);
 
-      if (response.ok) {
-        const { translatedText } = await response.json();
-        setTranslatedText(translatedText);
+//   return {
+//     t,
+//     i18n,
+//     changeLanguage: (lang: string) => i18n.changeLanguage(lang),
+//   };
+// }
 
-        const cacheItem: CacheItem = { translatedText, timestamp: Date.now() };
-        localStorage.setItem(cacheKey, JSON.stringify(cacheItem));
-      } else {
-        console.error('Translation failed');
-      }
-    } catch (error) {
-      console.error('Error fetching translation:', error);
-    }
-  }, []);
+// // hooks/useTranslation.ts --fff
+// import { useTranslation as useI18nTranslation } from 'react-i18next';
+// import i18n from '@/app/i18n';
 
-  useEffect(() => {
-    textRef.current = text;
-    languageRef.current = language;
-    if (text && language !== Language.ENGLISH) {
-      fetchTranslation();
-    } else {
-      setTranslatedText(text);
-    }
-  }, [text, language, fetchTranslation]);
+// export function useTranslation(namespace: string = 'common') {
+//   const { t } = useI18nTranslation(namespace);
 
-  return translatedText;
-}
+//   const changeLanguage = (lang: string) => {
+//     const normalizedLang = lang.toLowerCase();
+//     const supportedLngs = i18n.options.supportedLngs;
+//     if (Array.isArray(supportedLngs) && supportedLngs.includes(normalizedLang)) {
+//       return i18n.changeLanguage(normalizedLang);
+//     } else {
+//       console.warn(`Language ${lang} is not supported. Falling back to default language.`);
+//       return i18n.changeLanguage(i18n.options.fallbackLng as string);
+//     }
+//   };
+
+//   return {
+//     t,
+//     i18n,
+//     changeLanguage,
+//   };
+// }

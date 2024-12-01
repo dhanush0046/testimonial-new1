@@ -1,0 +1,72 @@
+{
+"preview": {
+  "livePreview": "Live preview - Testimonial page",
+  "thankYouPreview": "Live preview - Thank you page",
+  "yourSpace": "Your Space",
+  "headerHere": "Header goes here...",
+  "giveTestimonial": "Please give your testimonial here...",
+  "questions": "QUESTIONS",
+  "recordVideo": "Record a Video",
+  "sendText": "Send in Text",
+  "thankYou": "Thank you!",
+  "thankYouMessage": "Thank you so much for your shoutout! It means a ton for us! 🙏",
+  "videoButtonText": "Record video",
+  "textButtonText": "Send text",
+  "consentDisplay": "required",
+  "consentStatement": "I give permission to use this testimonial.",
+  "textSubmissionTitle": "Write a text testimonial for",
+  "videoSubmissionTitle": "Record a video testimonial for",
+  "questionLabel": "Questions"
+},
+"errors": {
+    "minCharacters": "Please enter at least {{count}} characters for your testimonial.",
+    "submissionFailed": "An error occurred while submitting the testimonial.",
+    "cameraAccessFailed": "Failed to access camera or microphone",
+    "videoUploadFailed": "Failed to upload the video."
+  },
+  "success": {
+    "testimonialSubmitted": "Testimonial submitted successfully!"
+  },
+  "labels": {
+    "optional": "Optional",
+    "questions": "Questions",
+    "rating": "Rating",
+    "yourTestimonial": "Your Testimonial",
+    "characters": "characters",
+    "charactersNeeded": " ({{count}} more needed)",
+    "minimumReached": " (minimum reached)",
+    "attachImages": "Attach Image(s)",
+    "uploadYourPhoto": "Upload Your Photo",
+    "uploading": "Uploading..."
+  },
+  "extraFields": {
+    "name": "Name",
+    "email": "Email",
+    "title,company": "Title, Company",
+    "social link": "Social Link",
+    "address": "Address"
+  },
+  "placeholders": {
+    "writeTestimonial": "Write your testimonial here (minimum {{count}} characters)..."
+  },
+  "buttons": {
+    "chooseFile": "Choose file",
+    "removeAll": "Remove all",
+    "remove": "Remove",
+    "view": "View",
+    "cancel": "Cancel",
+    "send": "Send",
+    "sending": "Sending...",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "reRecord": "Re-record",
+    "uploadVideo": "Upload Video"
+
+  },
+  "alt": {
+    "logo": "Logo",
+    "preview": "Preview",
+    "avatar": "Avatar",
+    "attached": "Attached image"
+  }
+}

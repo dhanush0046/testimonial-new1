@@ -1,0 +1,71 @@
+{
+  "preview": {
+    "livePreview": "Vista previa en vivo - Página de testimonios",
+    "thankYouPreview": "Vista previa en vivo - Página de agradecimiento",
+    "yourSpace": "Tu Espacio",
+    "headerHere": "El encabezado va aquí...",
+    "giveTestimonial": "Por favor, da tu testimonio aquí...",
+    "questions": "PREGUNTAS",
+    "recordVideo": "Grabar un video",
+    "sendText": "Enviar en texto",
+    "thankYou": "¡Gracias!",
+    "thankYouMessage": "¡Muchas gracias por tu mensaje! ¡Significa mucho para nosotros! 🙏",
+    "videoButtonText": "Grabar video",
+    "textButtonText": "Enviar texto",
+    "consentDisplay": "requerido",
+    "consentStatement": "Doy permiso para usar este testimonio.",
+    "textSubmissionTitle": "Escribir un testimonio de texto para",
+    "videoSubmissionTitle": "Graba un testimonio en video para",
+    "questionLabel": "Preguntas"
+  },
+  "errors": {
+    "minCharacters": "Por favor, ingrese al menos {{count}} caracteres para su testimonio.",
+    "submissionFailed": "Ocurrió un error al enviar el testimonio.",
+    "cameraAccessFailed": "No se pudo acceder a la cámara o al micrófono",
+    "videoUploadFailed": "Error al subir el video."
+  },
+  "success": {
+    "testimonialSubmitted": "¡Testimonio enviado exitosamente!"
+  },
+  "labels": {
+    "optional": "Opcional",
+    "questions": "Preguntas",
+    "rating": "Calificación",
+    "yourTestimonial": "Su Testimonio",
+    "characters": "caracteres",
+    "charactersNeeded": " (faltan {{count}} más)",
+    "minimumReached": " (mínimo alcanzado)",
+    "attachImages": "Adjuntar Imagen(es)",
+    "uploadYourPhoto": "Sube tu foto",
+    "uploading": "Subiendo..."
+  },
+  "extraFields": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "title,company": "Título, Empresa",
+    "social link": "Enlace social",
+    "address": "Dirección"
+  },
+  "placeholders": {
+    "writeTestimonial": "Escriba su testimonio aquí (mínimo {{count}} caracteres)..."
+  },
+  "buttons": {
+    "chooseFile": "Seleccionar archivo",
+    "removeAll": "Eliminar todo",
+    "remove": "Eliminar",
+    "view": "Ver",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "startRecording": "Comenzar grabación",
+    "stopRecording": "Detener grabación",
+    "reRecord": "Volver a grabar",
+    "uploadVideo": "Subir video"
+  },
+  "alt": {
+    "logo": "Logotipo",
+    "preview": "Vista previa",
+    "avatar": "Avatar",
+    "attached": "Imagen adjunta"
+  }
+}

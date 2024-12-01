@@ -1,9 +1,10 @@
 //components/ThankYouPopup.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Twitter, Linkedin, Facebook, MessageSquare } from 'lucide-react';
 import Modal from "@/components/Modal";
+import { useRouter } from 'next/navigation';
 
 interface ThankYouPopupProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface ThankYouPopupProps {
   thankYouTitle: string;
   thankYouMessage: string;
   allowSocialShare: boolean;
+  redirectUrl: string | null;
 }
 
 export default function ThankYouPopup({
@@ -21,20 +23,31 @@ export default function ThankYouPopup({
   thankYouTitle,
   thankYouMessage,
   allowSocialShare,
+  redirectUrl,
 }: ThankYouPopupProps) {
+
+  const router = useRouter();
+
+  const handleClose = () => {
+    onClose();
+    if (redirectUrl) {
+      router.push(redirectUrl);
+    }
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <div className="text-center">
         {thankYouImage && (
-          <div className="w-full max-w-md mx-auto mb-6 relative overflow-hidden inline-flex justify-center rounded-lg">
-            <Image
-              src={thankYouImage}
-              alt="Thank You"
-              width={400}
-              height={200}
-              className="object-cover w-70 h-auto"
-            />
-          </div>
+          <div className="w-full max-w-md mx-auto mb-6 relative overflow-hidden inline-flex justify-center rounded-lg" style={{ height: '200px' }}>
+          <Image
+            src={thankYouImage}
+            alt="Thank You"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
+        </div>        
         )}
         <h2 className="text-2xl font-bold mb-4">{thankYouTitle || "Thank you!"}</h2>
         <p className="mb-6">{thankYouMessage || "Thank you so much for your feedback!"}</p>
@@ -54,7 +67,7 @@ export default function ThankYouPopup({
             </Button>
           </div>
         )}
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handleClose}>Close</Button>
       </div>
     </Modal>
   );

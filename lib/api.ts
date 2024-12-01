@@ -1,8 +1,9 @@
 //lib/api.ts
-import { CreateSpaceInput,DashboardData, Space, ExtraSettings } from "@/types/space";
+import prisma from '@/lib/prisma'
+import { CreateSpaceInput,DashboardData, Space, ExtraSettings, Language, mapLanguageCodeToEnum, WallOfLoveSettings } from "@/types/space";
 import { CreateTestimonialInput, Testimonial } from "@/types/testimonial";
 
-export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment' | 'photo'| 'thankYouImage' | 'openGraphImage'): Promise<{ uploadUrl: string; fileUrl: string }> {
+export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment' | 'photo'| 'thankYouImage' | 'openGraphImage' | 'coverImage'): Promise<{ uploadUrl: string; fileUrl: string }> {
   const response = await fetch(`/api/get-signed-url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}&uploadType=${uploadType}`);
 
   if (!response.ok) {
@@ -12,7 +13,7 @@ export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment'
   return response.json();
 }
 
-export async function uploadFile(file: File, uploadType: 'logo' | 'attachment' | 'photo' | 'thankYouImage' | 'openGraphImage'): Promise<string> {
+export async function uploadFile(file: File, uploadType: 'logo' | 'attachment' | 'photo' | 'thankYouImage' | 'openGraphImage' | 'coverImage'): Promise<string> {
   const { uploadUrl, fileUrl } = await getUploadUrl(file, uploadType);
 
   const uploadResponse = await fetch(uploadUrl, {
@@ -50,6 +51,7 @@ export async function createSpace(input: CreateSpaceInput & ExtraSettings): Prom
   }
 
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const language= mapLanguageCodeToEnum(input.language);
 
   const response = await fetch('/api/spaces', {
     method: 'POST',
@@ -58,6 +60,7 @@ export async function createSpace(input: CreateSpaceInput & ExtraSettings): Prom
     },
     body: JSON.stringify({ 
       ...input, 
+      language,
       logo: logoUrl, 
       thankYouImage: thankYouImageUrl, 
       openGraphImage: openGraphImageUrl ,
@@ -78,25 +81,13 @@ export async function createSpace(input: CreateSpaceInput & ExtraSettings): Prom
   return data.newSpace;
 }
 
-export async function getDashboardData(): Promise<DashboardData> {
-  const response = await fetch('/api/dashboard');
-  if (!response.ok) {
-    throw new Error('Failed to fetch dashboard data');
-  }
-  return response.json();
-}
-
-
-
 export async function getSpace(spaceId: string): Promise<Space> {
   const response = await fetch(`/api/spaces/${spaceId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch space");
   }
-
   const data = await response.json();
-
   return data;
 }
 
@@ -149,38 +140,18 @@ export async function updateSpace(spaceId: string, input: Partial<CreateSpaceInp
   let openGraphImageUrl = input.openGraphImage;
 
   if (input.logo instanceof File) {
-    try {
-      const { uploadUrl, fileUrl } = await getUploadUrl(input.logo, 'logo');
-      await uploadFileToS3(uploadUrl, input.logo);
-      logoUrl = fileUrl;
-    } catch (error) {
-      console.error('Error uploading logo:', error);
-      throw error;
-    }
+    logoUrl = await uploadFile(input.logo, 'logo');
   }
 
   if (input.thankYouImage instanceof File) {
-    try {
-      const { uploadUrl, fileUrl } = await getUploadUrl(input.thankYouImage, 'thankYouImage');
-      await uploadFileToS3(uploadUrl, input.thankYouImage);
-      thankYouImageUrl = fileUrl;
-    } catch (error) {
-      console.error('Error uploading thank you image:', error);
-      throw error;
-    }
+    thankYouImageUrl = await uploadFile(input.thankYouImage, 'thankYouImage');
   }
 
   if (input.openGraphImage instanceof File) {
-    try {
-      const { uploadUrl, fileUrl } = await getUploadUrl(input.openGraphImage, 'openGraphImage');
-      await uploadFileToS3(uploadUrl, input.openGraphImage);
-      openGraphImageUrl = fileUrl;
-    } catch (error) {
-      console.error('Error uploading open graph image:', error);
-      throw error;
-    }
+    openGraphImageUrl = await uploadFile(input.openGraphImage, 'openGraphImage');
   }
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const language= mapLanguageCodeToEnum(input.language || Language.ENGLISH);
 
   const response = await fetch(`/api/spaces/${spaceId}`, {
     method: 'PUT',
@@ -189,6 +160,7 @@ export async function updateSpace(spaceId: string, input: Partial<CreateSpaceInp
     },
     body: JSON.stringify({ 
       ...input, 
+      language,
       logo: logoUrl, 
       thankYouImage: thankYouImageUrl, 
       openGraphImage: openGraphImageUrl,
@@ -221,6 +193,58 @@ export async function uploadFileToS3(uploadUrl: string, file: File): Promise<voi
   if (!response.ok) {
     throw new Error('Failed to upload file to S3');
   }
+}
+
+export async function translateText(text: string, sourceLanguage: Language, targetLanguage: Language): Promise<string> {
+  if (!text) return '';
+
+  const response = await fetch('/api/translate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text,
+      sourceLanguage,
+      targetLanguage,
+    }),
+  });
+
+  if (!response.ok) {
+    console.error('Error translating text:', await response.text());
+    return text; // Return original text if translation fails
+  }
+
+  const data = await response.json();
+  return data.translatedText || text;
+}
+
+//===========================
+export async function getSpaceWithWallOfLoveSettings(spaceId: string): Promise<Space & { wallOfLoveSettings: WallOfLoveSettings | null }> {
+  const response = await fetch(`/api/spaces/${spaceId}/wall-of-love`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch space with Wall of Love settings");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function updateWallOfLoveSettings(spaceId: string, settings: Partial<WallOfLoveSettings>): Promise<WallOfLoveSettings> {
+  const response = await fetch(`/api/spaces/${spaceId}/wall-of-love`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(settings),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update Wall of Love settings");
+  }
+
+  return response.json(); // This should be the complete updated settings object
 }
 
 //================demo

@@ -1,0 +1,71 @@
+{
+  "preview": {
+    "livePreview": "实时预览 - 推荐页面",
+    "thankYouPreview": "实时预览 - 感谢页面",
+    "yourSpace": "您的空间",
+    "headerHere": "标题在这里...",
+    "giveTestimonial": "请在这里给出您的推荐...",
+    "questions": "问题",
+    "recordVideo": "录制视频",
+    "sendText": "发送文字",
+    "thankYou": "谢谢！",
+    "thankYouMessage": "非常感谢您的推荐！这对我们意义重大！🙏",
+    "videoButtonText": "录制视频",
+    "textButtonText": "发送文本",
+    "consentDisplay": "必需的",
+    "consentStatement": "我允许使用此推荐意见。",
+    "textSubmissionTitle": "写一个文字推荐给",
+    "videoSubmissionTitle": "录制视频推荐给",
+    "questionLabel": "问题"
+  },
+  "errors": {
+    "minCharacters": "请至少输入 {{count}} 个字符以提交您的推荐。",
+    "submissionFailed": "提交推荐时发生错误。",
+    "cameraAccessFailed": "无法访问摄像头或麦克风",
+    "videoUploadFailed": "视频上传失败。"
+  },
+  "success": {
+    "testimonialSubmitted": "推荐提交成功！"
+  },
+  "labels": {
+    "optional": "可选",
+    "questions": "问题",
+    "rating": "评分",
+    "yourTestimonial": "您的推荐",
+    "characters": "字符",
+    "charactersNeeded": " (还需 {{count}} 个)",
+    "minimumReached": " (已达最小值)",
+    "attachImages": "附加图片",
+    "uploadYourPhoto": "上传您的照片",
+    "uploading": "上传中..."
+  },
+  "extraFields": {
+    "name": "姓名",
+    "email": "电子邮件",
+    "title,company": "职位，公司",
+    "social link": "社交链接",
+    "address": "地址"
+  },
+  "placeholders": {
+    "writeTestimonial": "在此处写下您的推荐（最少 {{count}} 个字符）..."
+  },
+  "buttons": {
+    "chooseFile": "选择文件",
+    "removeAll": "全部移除",
+    "remove": "移除",
+    "view": "查看",
+    "cancel": "取消",
+    "send": "发送",
+    "sending": "发送中...",
+    "startRecording": "开始录制",
+    "stopRecording": "停止录制",
+    "reRecord": "重新录制",
+    "uploadVideo": "上传视频"
+  },
+  "alt": {
+    "logo": "标志",
+    "preview": "预览",
+    "avatar": "头像",
+    "attached": "附加图片"
+  }
+}

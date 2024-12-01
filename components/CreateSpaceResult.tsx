@@ -28,10 +28,6 @@ export default function CreateSpaceResult({ spaceName, spaceId, shareableLink, o
         duration: 2000,
       });
     }
-    // navigator.clipboard.writeText(shareableLink);
-    // toast.success('Link copied to clipboard!', {
-    //   duration: 2000,
-    // });
   };
 
   const handleOpenLink = () => {
@@ -58,7 +54,7 @@ export default function CreateSpaceResult({ spaceName, spaceId, shareableLink, o
       <Card className="w-full max-w-2xl mx-auto shadow-xl rounded-xl overflow-hidden animate-fadeIn bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
         <CardHeader className="p-8 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-t-xl">
           <CardTitle className="text-3xl font-extrabold">🎉 Space Created Successfully!</CardTitle>
-          <CardDescription className="text-md font-light mt-3">Your shareable link is ready</CardDescription>
+          <CardDescription className="text-md text-gray-700 font-light mt-3">Your shareable link is ready</CardDescription>
         </CardHeader>
         <CardContent className="p-8">
           <p className="text-lg text-gray-700 font-medium break-words bg-gray-100 p-4 rounded-lg shadow-inner">

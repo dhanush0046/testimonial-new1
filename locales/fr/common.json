@@ -1,0 +1,71 @@
+{
+  "preview": {
+    "livePreview": "Aperçu en direct - Page de témoignages",
+    "thankYouPreview": "Aperçu en direct - Page de remerciement",
+    "yourSpace": "Votre Espace",
+    "headerHere": "L'en-tête va ici...",
+    "giveTestimonial": "Veuillez donner votre témoignage ici...",
+    "questions": "QUESTIONS",
+    "recordVideo": "Enregistrer une vidéo",
+    "sendText": "Envoyer en texte",
+    "thankYou": "Merci !",
+    "thankYouMessage": "Merci beaucoup pour votre message ! Cela compte beaucoup pour nous ! 🙏",
+    "videoButtonText": "Enregistrer la vidéo",
+    "textButtonText": "Envoyer le texte",
+    "consentDisplay": "requis",
+    "consentStatement": "Je donne la permission d'utiliser ce témoignage.",
+    "textSubmissionTitle": "Écrire un témoignage textuel pour",
+    "videoSubmissionTitle": "Enregistrez un témoignage vidéo pour",
+    "questionLabel": "Questions"
+  },
+  "errors": {
+    "minCharacters": "Veuillez entrer au moins {{count}} caractères pour votre témoignage.",
+    "submissionFailed": "Une erreur est survenue lors de l'envoi du témoignage.",
+    "cameraAccessFailed": "Échec de l'accès à la caméra ou au microphone",
+    "videoUploadFailed": "Échec du téléchargement de la vidéo."
+  },
+  "success": {
+    "testimonialSubmitted": "Témoignage soumis avec succès !"
+  },
+  "labels": {
+    "optional": "Optionnel",
+    "questions": "Questions",
+    "rating": "Évaluation",
+    "yourTestimonial": "Votre Témoignage",
+    "characters": "caractères",
+    "charactersNeeded": " ({{count}} de plus nécessaire)",
+    "minimumReached": " (minimum atteint)",
+    "attachImages": "Joindre une/des image(s)",
+    "uploadYourPhoto": "Téléchargez votre photo",
+    "uploading": "Téléchargement..."
+  },
+  "extraFields": {
+    "name": "Nom",
+    "email": "Email",
+    "title,company": "Titre, Entreprise",
+    "social link": "Lien social",
+    "address": "Adresse"
+  },
+  "placeholders": {
+    "writeTestimonial": "Écrivez votre témoignage ici (minimum {{count}} caractères)..."
+  },
+  "buttons": {
+    "chooseFile": "Choisir un fichier",
+    "removeAll": "Tout retirer",
+    "remove": "Retirer",
+    "view": "Voir",
+    "cancel": "Annuler",
+    "send": "Envoyer",
+    "sending": "Envoi en cours...",
+    "startRecording": "Commencer l'enregistrement",
+    "stopRecording": "Arrêter l'enregistrement",
+    "reRecord": "Réenregistrer",
+    "uploadVideo": "Télécharger la vidéo"
+  },
+  "alt": {
+    "logo": "Logo",
+    "preview": "Aperçu",
+    "avatar": "Avatar",
+    "attached": "Image jointe"
+  }
+}
