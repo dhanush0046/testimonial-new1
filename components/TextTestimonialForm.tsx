@@ -429,7 +429,7 @@ export default function TextTestimonialForm({
                 name={field.id}
                 required={field.isRequired}
                 onChange={(e) =>
-                  handleExtraInfoChange(field.id, t(`extraFields.${field.id}`, field.label), e.target.value)
+                handleExtraInfoChange(field.id, t(`extraFields.${field.id}`, field.label), e.target.value)
                 }
               />
             </div>

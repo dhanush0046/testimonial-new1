@@ -281,7 +281,6 @@ export default function ThankYouForm({ thankYouData, onThankYouDataChange }: Tha
                 </Label>
               </span>
             </div>
-        
         </div>
 
         <div>

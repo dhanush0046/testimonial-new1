@@ -59,6 +59,7 @@ model Space {
 
   // Thank you page fields
   thankYouImage         String?
+  hideImage             Boolean    @default(false)
   thankYouTitle         String     @default("Thank you!")
   thankYouMessage       String     @default("Thank you so much for your shoutout! It means a ton for us! 🙏")
   allowSocialShare      Boolean    @default(false)

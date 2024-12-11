@@ -432,7 +432,7 @@ import LivePreviewExtraSettings from "@/components/LivePreExtraSetting";
 import ThankYouForm from "@/components/ThankYouForm";
 import { Button } from "@/components/ui/button";
 import { CreateSpaceInput, Space, ExtraSettings } from '@/types/space';
-import { updateSpace, getSpace } from "@/lib/api";
+import { updateSpace, getSpace, uploadFile } from "@/lib/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings, Heart, Bell, ArrowLeft } from 'lucide-react';
 import i18n from "@/lib/i18n";
@@ -510,7 +510,19 @@ export default function EditSpacePage({ params }: { params: { spaceId: string } 
 
     setIsSaving(true);
     try {
-      const updatedSpace: Space = await updateSpace(params.spaceId, spaceData);
+      const logoUrl = await handleFileUpload(spaceData.logo, 'logo');
+      const thankYouImageUrl = await handleThankYouImageUpload(spaceData.thankYouImage, spaceData.hideImage);
+      console.log("thankYouImageUrl ui", thankYouImageUrl);
+      const openGraphImageUrl = await handleFileUpload(spaceData.openGraphImage, 'openGraphImage');
+
+      const finalSpaceData = {
+        ...spaceData,
+        logo: logoUrl,
+        thankYouImage: thankYouImageUrl,
+        openGraphImage: openGraphImageUrl,
+      };
+      const updatedSpace: Space = await updateSpace(params.spaceId, finalSpaceData);
+      // const updatedSpace: Space = await updateSpace(params.spaceId, spaceData);
       router.push(`/dashboard?spaceId=${updatedSpace.id}`);
     } catch (error) {
       console.error("Error updating space:", error);
@@ -518,6 +530,34 @@ export default function EditSpacePage({ params }: { params: { spaceId: string } 
     } finally {
       setIsSaving(false);
     }
+  };
+  const handleFileUpload = async (file: File | string | null, type: 'logo' | 'thankYouImage' | 'openGraphImage') => {
+    if (file instanceof File) {
+      return await uploadFile(file, type);
+    }
+    return file;
+  };
+
+  const handleThankYouImageUpload = async (image: string | File | null, hideImage: boolean | null) => {
+    if (hideImage) {
+      return null;
+    }
+
+    if (image instanceof File) {
+      return await uploadFile(image, 'thankYouImage');
+    } else if (typeof image === 'string' && image !== "/testiy.png") {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const file = new File([blob], "thank-you-image.png", { type: blob.type });
+      return await uploadFile(file, 'thankYouImage');
+    } else if (image === "/testiy.png") {
+      console.log("testiy");
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const file = new File([blob], "default-thank-you-image.png", { type: blob.type });
+      return await uploadFile(file, 'thankYouImage');
+    }
+    return null;
   };
 
   const handleGoBack = () => {

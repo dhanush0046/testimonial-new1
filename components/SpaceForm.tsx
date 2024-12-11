@@ -908,15 +908,8 @@ export default function SpaceForm({ spaceData, onSpaceDataChange, isEditing = fa
   const [newExtraField, setNewExtraField] = useState('');
   const [newExtraFieldType, setNewExtraFieldType] = useState<ExtraInformationField['inputType']>('text');
 
-  // const defaultFields = spaceData.extraInformationFields.filter(field => field.type === "default");
-  // const customFields = spaceData.extraInformationFields.filter(field => field.type !== "default");
-
   const defaultFields = spaceData.extraInformationFields.filter(field => field.type === "defaultType");
   const customFields = spaceData.extraInformationFields.filter(field => field.type === "customType");
-
-  console.log("ExtraInformationFields",spaceData.extraInformationFields)
-  console.log("defaultFields",defaultFields)
-  console.log("customFields",customFields)
 
   useEffect(() => {
     if (spaceData.logo instanceof File) {

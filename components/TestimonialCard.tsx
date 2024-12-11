@@ -262,7 +262,7 @@ import { Heart, Tag, CheckCircle2, Star, ChevronUp } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TestimonialType, Testimonial as TestimonialInterface, ExtraInformationItem } from '@/types/testimonial';
+import { TestimonialType, Testimonial as TestimonialInterface, ExtraInformationItem, Testimonial } from '@/types/testimonial';
 import { TestimonialActions } from '@/components/TestimonialActions/Index';
 
 interface TestimonialCardProps {
@@ -275,6 +275,7 @@ interface TestimonialCardProps {
   onHighlight: (id: string) => void;
   onDelete: (id: string) => void;
   onTag: (id: string, tagNames: string[]) => void;
+  onEdit: (id: string , data: Testimonial) => void;
   activeTab: string;
 }
 
@@ -288,11 +289,12 @@ export function TestimonialCard({
   onHighlight, 
   onDelete, 
   onTag, 
+  onEdit,
   activeTab 
 }: TestimonialCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [localTestimonial, setLocalTestimonial] = useState(testimonial);
-
+ 
   const extraInformation = useMemo(() => {
     return Array.isArray(localTestimonial.extraInformation) 
       ? localTestimonial.extraInformation 
@@ -328,7 +330,8 @@ export function TestimonialCard({
 
   const handleDelete = () => onDelete(localTestimonial.id);
 
-  const handleEdit = () => console.log('Edit action');
+  const handleEdit = () => onEdit(localTestimonial.id, localTestimonial);
+  
   const handleIncentivize = () => console.log('Incentivize action');
   const handleDownload = () => console.log('Download action');
   const handleAI = () => console.log('AI action');
@@ -416,7 +419,9 @@ export function TestimonialCard({
                   
                   {localTestimonial.type === TestimonialType.VIDEO && localTestimonial.videoUrl && (
                     <div className="mt-4">
-                      <video src={localTestimonial.videoUrl} width={200} controls className="rounded-lg" />
+                      <video 
+                        src={localTestimonial.videoUrl} width={200} controls className="rounded-lg" poster={localTestimonial.videoThumbnail || ''} 
+                      />
                     </div>
                   )}
                   

@@ -207,17 +207,17 @@ export default function LivePreviewThankYou({ previewData }: LivePreviewThankYou
             </span>
           </div>
 
-          {!hideImage && thankYouImage && (
-            <div className="relative inline-flex flex-col justify-center mb-4">
-              <Image
-                src={thankYouImage instanceof File ? URL.createObjectURL(thankYouImage) : thankYouImage}
-                alt="Thank You image"
-                width={100}
-                height={100}
-                className="w-full mx-auto rounded object-cover"
-              />
-            </div>
-          )}
+          <div className="relative inline-flex flex-col justify-center mb-4"> 
+            {!hideImage && thankYouImage && (
+                <Image
+                  src={thankYouImage instanceof File ? URL.createObjectURL(thankYouImage) : thankYouImage}
+                  alt="Thank You image"
+                  width={400}
+                  height={200}
+                  className="w-full mx-auto rounded object-cover"
+                />
+            )}
+          </div>
 
           <h3 className={`text-2xl font-bold mb-4 ${textColor}`}>
             {thankYouTitle || t('preview.thankYou')}

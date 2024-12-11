@@ -1,3 +1,4 @@
+//components/TestimonialActions/Index.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -9,6 +10,7 @@ import { EditTestimonialDialog } from "@/components/TestimonialActions/EditTesti
 import { ActionButton } from "@/components/TestimonialActions/ActionButton";
 import { MoreActions } from "@/components/TestimonialActions/MoreActions";
 import { ShareActions } from "@/components/TestimonialActions/ShareActions";
+import { VideoTrimmer } from "@/components/TestimonialActions/VideoTrimmer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +29,7 @@ interface TestimonialActionsProps {
   testimonial: Testimonial;
   onTag: (tagNames: string[]) => void;
   onDelete: () => void;
-  onEdit: (updatedData: any) => Promise<void>;
+  onEdit: (id: string , data: Testimonial) => void;
   onIncentivize: () => void;
   onDownload: () => void;
   onAI: () => void;
@@ -71,6 +73,8 @@ export function TestimonialActions({
   const [tagSelectionOpen, setTagSelectionOpen] = useState(false);
   const [manageTagsOpen, setManageTagsOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [trimmerOpen, setTrimmerOpen] = useState(false)
+
   const isLikedTab = activeTab === "liked";
   const isArchivedTab = activeTab === "archived";
 
@@ -94,6 +98,40 @@ export function TestimonialActions({
     }
   };
 
+  const handleUpdateTestimonial = (id: string, data: Testimonial) => {
+    console.log("handleUpdateTestimonial", data);
+    onEdit && onEdit(id, data);
+    setEditDialogOpen(false);
+  };
+
+  const handleTrimVideo = async (trimmedVideo: Blob) => {
+    try {
+      // Create a FormData object to send the trimmed video
+      const formData = new FormData()
+      formData.append('video', trimmedVideo)
+      formData.append('testimonialId', testimonialId)
+
+      // Send the trimmed video to your API
+      const response = await fetch(`/api/testimonials/${testimonialId}/trim`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to save trimmed video')
+      }
+
+      // Update the testimonial with the new video URL
+      const data = await response.json()
+      onEdit(testimonialId, {
+        ...testimonial,
+        videoUrl: data.videoUrl
+      })
+    } catch (error) {
+      console.error('Error saving trimmed video:', error)
+    }
+  }
+
   const EditButton = () => {
     if (testimonialType === TestimonialType.VIDEO) {
       return (
@@ -108,7 +146,7 @@ export function TestimonialActions({
               <Edit className="mr-2 h-4 w-4" />
               Edit the testimonial
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={onTrimVideo}>
+            <DropdownMenuItem onClick={() => setTrimmerOpen(true)}>
               <Scissors className="mr-2 h-4 w-4" />
               Trim the video
             </DropdownMenuItem>
@@ -210,7 +248,14 @@ export function TestimonialActions({
         isOpen={editDialogOpen}
         onClose={() => setEditDialogOpen(false)}
         testimonial={testimonial}
-        onUpdate={onEdit}
+        onUpdate={handleUpdateTestimonial}
+      />
+
+      <VideoTrimmer
+        isOpen={trimmerOpen}
+        onClose={() => setTrimmerOpen(false)}
+        videoUrl={testimonial.videoUrl}
+        onSave={handleTrimVideo}
       />
     </>
   );

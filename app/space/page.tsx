@@ -721,9 +721,6 @@ export default function CreateSpacePage() {
   const handleSpaceDataChange = (newData: Partial<CreateSpaceInput & ExtraSettings>) => {
     setSpaceData((prevData) => {
       const updatedData = { ...prevData, ...newData };
-      // if (newData.language) {
-      //   i18n.changeLanguage(newData.language.toLowerCase());
-      // }
       return updatedData;
     });
   };
@@ -783,6 +780,7 @@ export default function CreateSpacePage() {
       const file = new File([blob], "thank-you-image.png", { type: blob.type });
       return await uploadFile(file, 'thankYouImage');
     } else if (image === "/testiy.png") {
+      console.log("testiy");
       const response = await fetch(image);
       const blob = await response.blob();
       const file = new File([blob], "default-thank-you-image.png", { type: blob.type });

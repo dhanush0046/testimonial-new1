@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma'
 import { CreateSpaceInput,DashboardData, Space, ExtraSettings, Language, mapLanguageCodeToEnum, WallOfLoveSettings } from "@/types/space";
 import { CreateTestimonialInput, Testimonial } from "@/types/testimonial";
 
-export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment' | 'photo'| 'thankYouImage' | 'openGraphImage' | 'coverImage'): Promise<{ uploadUrl: string; fileUrl: string }> {
+export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment' | 'photo'| 'thankYouImage' | 'openGraphImage' | 'coverImage'| 'companyLogo' | 'thumbnail'): Promise<{ uploadUrl: string; fileUrl: string }> {
   const response = await fetch(`/api/get-signed-url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}&uploadType=${uploadType}`);
 
   if (!response.ok) {
@@ -13,7 +13,7 @@ export async function getUploadUrl(file: File, uploadType: 'logo' | 'attachment'
   return response.json();
 }
 
-export async function uploadFile(file: File, uploadType: 'logo' | 'attachment' | 'photo' | 'thankYouImage' | 'openGraphImage' | 'coverImage'): Promise<string> {
+export async function uploadFile(file: File, uploadType: 'logo' | 'attachment' | 'photo' | 'thankYouImage' | 'openGraphImage' | 'coverImage' | 'companyLogo' | 'thumbnail'): Promise<string> {
   const { uploadUrl, fileUrl } = await getUploadUrl(file, uploadType);
 
   const uploadResponse = await fetch(uploadUrl, {
@@ -82,7 +82,8 @@ export async function createSpace(input: CreateSpaceInput & ExtraSettings): Prom
 }
 
 export async function getSpace(spaceId: string): Promise<Space> {
-  const response = await fetch(`/api/spaces/${spaceId}`);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Fallback for safety
+  const response = await fetch(`${baseUrl}/api/spaces/${spaceId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch space");

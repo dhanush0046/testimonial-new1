@@ -234,7 +234,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
 import { fetchTestimonialTags } from "@/lib/dashboardApi"
-import { TagsContainer } from '@/lib/useTagsContainer'
+import { TagsContainer } from '@/containers/tagsContainer'
 import { Skeleton } from "@/components/ui/skeleton"
 
 interface TagSelectionDialogProps {

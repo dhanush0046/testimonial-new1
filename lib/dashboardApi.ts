@@ -28,6 +28,20 @@ export async function getTestimonial(testimonialId: string): Promise<Testimonial
   return response.json();
 }
 
+export const putTestimonial = async (id: string, data: Testimonial): Promise<Testimonial> => {
+  const response = await fetch(`/api/testimonials/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update testimonial');
+  }
+  return response.json();
+};
+
 export async function likeTestimonial(id: string): Promise<Testimonial> {
   const response = await fetch(`/api/testimonial/like`, {
     method: 'POST',

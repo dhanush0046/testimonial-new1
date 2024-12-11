@@ -44,6 +44,12 @@ export async function GET(request: Request) {
     case 'coverImage':
       folderName = 'coverImages';
       break;
+    case 'companyLogo':
+      folderName = 'companyLogos';
+      break;
+    case 'thumbnail':
+      folderName = 'thumbnails';
+      break;
     default:
 
       return NextResponse.json({ message: 'Invalid upload type' }, { status: 400 });
