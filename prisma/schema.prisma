@@ -165,7 +165,10 @@ model Testimonial {
   rating            Int?
   photo             String?
   videoUrl          String?
+  videoDuration     Float?
   videoThumbnail    String?
+  trimmedStartTime  Float?
+  trimmedEndTime    Float?
   attachedImages    String[] // New field for attached images
   permissionGranted Boolean  @default(false)
   extraInformation  Json     @default("[]")

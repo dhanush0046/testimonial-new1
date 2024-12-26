@@ -660,6 +660,7 @@ const handleThumbnailSelect = (file: File | string) => {
             <div className="grid gap-2">
               <ThumbnailSelector
                 videoUrl={formData.videoUrl || ''}
+                videoDuration={formData.videoDuration || 0}
                 videoThumbnail={formData.videoThumbnail || null}
                 onSelect={handleThumbnailSelect}
                 selectedThumbnail={videoThumbnail || null }

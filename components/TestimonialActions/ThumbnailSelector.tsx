@@ -215,6 +215,7 @@ import { cn } from "@/lib/utils";
 
 interface ThumbnailSelectorProps {
   videoUrl: string;
+  videoDuration: number;
   videoThumbnail: string | null;
   onSelect: (file: File | string) => void;
   selectedThumbnail: File | null;
@@ -224,6 +225,7 @@ const THUMBNAIL_COUNT = 3;
 
 export function ThumbnailSelector({
   videoUrl,
+  videoDuration,
   videoThumbnail,
   onSelect,
   selectedThumbnail,
@@ -237,30 +239,30 @@ export function ThumbnailSelector({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [shouldGenerateThumbnails, setShouldGenerateThumbnails] = useState<boolean>(true);
 
-  const getVideoDuration = async (videoUrl: string): Promise<number> => {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement("video");
-      video.crossOrigin = "anonymous";
-      video.src = videoUrl;
+  // const getVideoDuration = async (videoUrl: string): Promise<number> => {
+  //   return new Promise((resolve, reject) => {
+  //     const video = document.createElement("video");
+  //     video.crossOrigin = "anonymous";
+  //     video.src = videoUrl;
   
-      video.onloadedmetadata = () => {
-        if (isFinite(video.duration) && video.duration > 0) {
-          resolve(video.duration);
-          console.log("Video duration:", video.duration);
-        } else {
-          console.error("Invalid video duration:", video.duration);
-          resolve(10); // Use a fallback duration
-        }
-      };
+  //     video.onloadedmetadata = () => {
+  //       if (isFinite(video.duration) && video.duration > 0) {
+  //         resolve(video.duration);
+  //         console.log("Video duration:", video.duration);
+  //       } else {
+  //         console.error("Invalid video duration:", video.duration);
+  //         resolve(10); // Use a fallback duration
+  //       }
+  //     };
   
-      video.onerror = () => {
-        console.error("Error loading video metadata");
-        reject(new Error("Failed to load video metadata"));
-      };
+  //     video.onerror = () => {
+  //       console.error("Error loading video metadata");
+  //       reject(new Error("Failed to load video metadata"));
+  //     };
   
-      video.load();
-    });
-  };
+  //     video.load();
+  //   });
+  // };
   
   const generateThumbnails = useCallback(async () => {
     if (!videoUrl) return;
@@ -269,7 +271,7 @@ export function ThumbnailSelector({
     setError(null);
   
     try {
-      const duration = await getVideoDuration(videoUrl);
+      const duration = videoDuration
       const timestamps = Array.from(
         { length: THUMBNAIL_COUNT },
         (_, i) => (i + 1) * (duration / (THUMBNAIL_COUNT + 1))

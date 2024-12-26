@@ -415,12 +415,31 @@ export function TestimonialCard({
                 <div className="text-gray-800 dark:text-gray-200 font-semibold dark:hover:text-gray-300 focus:outline-none w-full items-center">
                   <div className="text-sm font-normal text-left cursor-pointer break-words">
                     <p className="text-gray-700">{localTestimonial.content}</p>
+                    {localTestimonial.type == TestimonialType.VIDEO && localTestimonial.excerpt && (
+                      <p className="text-gray-700">{localTestimonial.excerpt}</p>
+                    )}
                   </div>
                   
                   {localTestimonial.type === TestimonialType.VIDEO && localTestimonial.videoUrl && (
                     <div className="mt-4">
                       <video 
                         src={localTestimonial.videoUrl} width={200} controls className="rounded-lg" poster={localTestimonial.videoThumbnail || ''} 
+                        
+                        onLoadedMetadata={(e) => {
+                          const video = e.currentTarget;
+                          if (localTestimonial.trimmedStartTime) {
+                            video.currentTime = localTestimonial.trimmedStartTime; // Set the starting point
+                          }
+                        }}
+                        onTimeUpdate={(e) => {
+                          const video = e.currentTarget;
+                          if (
+                            localTestimonial.trimmedEndTime &&
+                            video.currentTime >= localTestimonial.trimmedEndTime
+                          ) {
+                            video.pause(); // Pause the video when it reaches the end time
+                          }
+                        }} 
                       />
                     </div>
                   )}

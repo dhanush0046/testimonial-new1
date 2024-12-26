@@ -90,6 +90,9 @@ export async function PUT(
       data: {
         content: updatedData.content,
         videoUrl: updatedData.videoUrl,
+        videoDuration: updatedData.videoDuration,
+        trimmedStartTime: updatedData.trimmedStartTime,
+        trimmedEndTime: updatedData.trimmedEndTime,
         videoThumbnail: updatedData.videoThumbnail,
         photo: updatedData.photo,
         attachedImages: updatedData.attachedImages,
@@ -121,6 +124,9 @@ export async function PUT(
         ? (testimonialData.extraInformation as any as ExtraInformationItem[])
         : [],
       tags: testimonialData.tags || [],
+      trimmedStartTime: testimonialData.trimmedStartTime || undefined,
+      trimmedEndTime: testimonialData.trimmedEndTime || undefined,
+      videoDuration: testimonialData.videoDuration || undefined,
       videoThumbnail: testimonialData.videoThumbnail || undefined,
       companyLink: testimonialData.companyLink || undefined,
       companyLogo: testimonialData.companyLogo || undefined,
@@ -167,6 +173,9 @@ export async function GET(
       attachedImages: testimonialData.attachedImages || undefined,
       content: testimonialData.content,
       videoUrl: testimonialData.videoUrl || undefined,
+      videoDuration: testimonialData.videoDuration || undefined,
+      trimmedStartTime: testimonialData.trimmedStartTime || undefined,
+      trimmedEndTime: testimonialData.trimmedEndTime || undefined,
       permissionGranted: testimonialData.permissionGranted,
       extraInformation: testimonialData.extraInformation
         ? (testimonialData.extraInformation as any as ExtraInformationItem[])

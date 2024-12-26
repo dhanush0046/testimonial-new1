@@ -17,6 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
+import {putTestimonial} from "@/lib/dashboardApi";
 
 interface TestimonialActionsProps {
   testimonialType: TestimonialType;
@@ -74,6 +76,7 @@ export function TestimonialActions({
   const [manageTagsOpen, setManageTagsOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [trimmerOpen, setTrimmerOpen] = useState(false)
+  const [isProcessingTrim, setIsProcessingTrim] = useState(false)
 
   const isLikedTab = activeTab === "liked";
   const isArchivedTab = activeTab === "archived";
@@ -104,33 +107,24 @@ export function TestimonialActions({
     setEditDialogOpen(false);
   };
 
-  const handleTrimVideo = async (trimmedVideo: Blob) => {
+  const handleTrimVideo = async (startTime: number, endTime: number) => {
+    setIsProcessingTrim(true);
+    
     try {
-      // Create a FormData object to send the trimmed video
-      const formData = new FormData()
-      formData.append('video', trimmedVideo)
-      formData.append('testimonialId', testimonialId)
-
-      // Send the trimmed video to your API
-      const response = await fetch(`/api/testimonials/${testimonialId}/trim`, {
-        method: 'POST',
-        body: formData,
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to save trimmed video')
-      }
-
-      // Update the testimonial with the new video URL
-      const data = await response.json()
-      onEdit(testimonialId, {
-        ...testimonial,
-        videoUrl: data.videoUrl
-      })
-    } catch (error) {
-      console.error('Error saving trimmed video:', error)
-    }
-  }
+      const updatedTestimonial = await putTestimonial(testimonialId, {
+       trimmedStartTime: startTime,
+       trimmedEndTime: endTime,
+     });
+      onEdit(testimonialId, updatedTestimonial);
+     toast.success('Video trim points saved successfully');
+     setTrimmerOpen(false);
+   } catch (error) {
+     console.error('Error saving trim points:', error);
+     toast.error('Failed to save trim points');
+   } finally {
+     setIsProcessingTrim(false);
+   }
+ }
 
   const EditButton = () => {
     if (testimonialType === TestimonialType.VIDEO) {
@@ -254,7 +248,8 @@ export function TestimonialActions({
       <VideoTrimmer
         isOpen={trimmerOpen}
         onClose={() => setTrimmerOpen(false)}
-        videoUrl={testimonial.videoUrl}
+        videoUrl={testimonial?.videoUrl || null}
+        videoDuration={testimonial?.videoDuration || null}
         onSave={handleTrimVideo}
       />
     </>

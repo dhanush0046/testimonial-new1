@@ -22,6 +22,9 @@ export interface Testimonial {
   photo?: string;
   videoUrl?: string;
   videoThumbnail?: string;
+  videoDuration?: number;
+  trimmedStartTime?: number;
+  trimmedEndTime?: number;
   permissionGranted: boolean;
   extraInformation: ExtraInformationItem[];
   companyLink?: string;
@@ -50,6 +53,7 @@ export interface CreateTestimonialInput {
   videoUrl?: string;
   permissionGranted: boolean;
   extraInformation: ExtraInformationItem[];
+  videoDuration?: number;
 }
 
 export interface ExtraInformationItem {

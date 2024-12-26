@@ -16,7 +16,8 @@ export async function POST(request: Request) {
       photo,
       videoUrl,
       permissionGranted,
-      extraInformation
+      extraInformation,
+      videoDuration
     } = body;
 
     if (!spaceId || !type || permissionGranted === undefined) {
@@ -33,7 +34,8 @@ export async function POST(request: Request) {
         videoUrl,
         permissionGranted,
         extraInformation,
-        attachedImages
+        attachedImages,
+        videoDuration
       },
     });
 

@@ -28,7 +28,7 @@ export async function getTestimonial(testimonialId: string): Promise<Testimonial
   return response.json();
 }
 
-export const putTestimonial = async (id: string, data: Testimonial): Promise<Testimonial> => {
+export const putTestimonial = async (id: string, data: any): Promise<Testimonial> => {
   const response = await fetch(`/api/testimonials/${id}`, {
     method: 'PUT',
     headers: {

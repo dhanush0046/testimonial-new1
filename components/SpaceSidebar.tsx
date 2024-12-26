@@ -78,7 +78,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Inbox, Heart, Archive, AlertTriangle, Share2, Video, MessageSquare, ChevronRight, Code, Star, Settings, RefreshCcw, Mail, 
-  PenTool, Tags, Move, Users, Globe, XIcon as BrandX, Linkedin, Instagram, Youtube, Twitter, VideoIcon as Vimeo, PlayCircle, ChromeIcon as Google, Award, FileText, LayoutGrid, Send, Folder, Download } from 'lucide-react'
+  PenTool, Tags, Move, Users, Globe, XIcon as BrandX, Linkedin, Instagram, Youtube, Twitter, VideoIcon as Vimeo, PlayCircle,
+   ChromeIcon as Google, Award, FileText, LayoutGrid, Send, Folder, Download } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import ManageTagsDialog  from '@/components/SideBarHandles/ManageTagsDialog'
 
@@ -95,6 +96,11 @@ interface SidebarSection {
     id: string
     label: string
     icon: React.ReactNode
+    isPro?: boolean
+    subItems?: {
+      icon: React.ReactNode
+      label: string
+    }[]
   }[]
 }
 
@@ -133,8 +139,49 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, space
     {
       title: 'Integrations',
       items: [
-        { id: 'import-testimonials', label: 'Import Testimonials', icon: <Download className="h-4 w-4" /> },
-      ]
+        {
+          id: 'social-media',
+          label: 'Social media',
+          icon: <Share2 className="h-4 w-4" />,
+          subItems: [
+            { icon: <BrandX className="h-4 w-4" />, label: 'X/Twitter' },
+            { icon: <Linkedin className="h-4 w-4" />, label: 'LinkedIn' },
+            { icon: <Instagram className="h-4 w-4" />, label: 'Instagram' },
+          ],
+        },
+        {
+          id: 'external-videos',
+          label: 'External videos',
+          icon: <Video className="h-4 w-4" />,
+          subItems: [
+            { icon: <Youtube className="h-4 w-4" />, label: 'YouTube' },
+            { icon: <Vimeo className="h-4 w-4" />, label: 'Vimeo' },
+          ],
+        },
+        {
+          id: 'other-reviews',
+          label: 'Other reviews',
+          icon: <Star className="h-4 w-4" />,
+          subItems: [{ icon: <Google className="h-4 w-4" />, label: 'Google Reviews' }],
+        },
+        {
+          id: 'custom-cards',
+          label: 'Custom cards',
+          icon: <FileText className="h-4 w-4" />,
+          isPro: true,
+        },
+        {
+          id: 'email-assistant',
+          label: 'Testimonial Email Assistant',
+          icon: <Mail className="h-4 w-4" />,
+          isPro: true,
+        },
+        {
+          id: 'automation',
+          label: 'Automation',
+          icon: <RefreshCcw className="h-4 w-4" />,
+        },
+      ],
     },
     {
       title: 'Embed widgets',

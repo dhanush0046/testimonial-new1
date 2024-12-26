@@ -327,6 +327,7 @@ import { getDashboardData, deleteSpace } from '@/lib/dashboardApi';
 import TestimonialDashboard from '@/components/TestimonialDashboard/index';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { toast, Toaster } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, ListTodo, Link, Edit, Globe, Key, Copy, Trash2 } from 'lucide-react';
@@ -505,7 +506,7 @@ const DashboardPage = () => {
             </Button>
           </div>
 
-          <input
+          <Input
             type="text"
             placeholder="Search testimonials by name, email, or keywords"
             className="w-full px-4 py-2 mb-6 border rounded-md"
